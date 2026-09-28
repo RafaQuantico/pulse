@@ -1,0 +1,11 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+const data=await readFile(new URL('./simulator-source/data.json',import.meta.url),'utf8');
+JSON.parse(data);
+const template=await readFile(new URL('./simulator-source/app.html',import.meta.url),'utf8');
+const explorerCSS=await readFile(new URL('./simulator-source/explorer.css',import.meta.url),'utf8');
+const explorerJS=await readFile(new URL('./simulator-source/explorer.js',import.meta.url),'utf8');
+const crosstabsCSS=await readFile(new URL('./simulator-source/crosstabs.css',import.meta.url),'utf8');
+const crosstabsJS=await readFile(new URL('./simulator-source/crosstabs.js',import.meta.url),'utf8');
+await mkdir(new URL('./public/simulator/',import.meta.url),{recursive:true});
+await writeFile(new URL('./public/simulator/index.html',import.meta.url),template.replace('__STUDY_DATA__',()=>data.replaceAll('</','<\\/')).replace('__EXPLORER_CSS__',()=>explorerCSS).replace('__EXPLORER_JS__',()=>explorerJS).replace('__CROSSTABS_CSS__',()=>crosstabsCSS).replace('__CROSSTABS_JS__',()=>crosstabsJS));
+console.log('Built self-contained TITANIA Pulse simulator.');
