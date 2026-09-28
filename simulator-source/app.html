@@ -150,6 +150,7 @@ __EXPLORER_JS__
 __CROSSTABS_JS__
 const initial=location.hash.slice(1);if([...navs.map(v=>v[0]),'method'].includes(initial))state.view=initial;
 render();
+window.parent?.postMessage("titania-pulse-ready", "*");
 </script>
 </body>
 </html>
